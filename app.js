@@ -146,7 +146,9 @@ function feltOff(){
 
 function endSession(){
   if(!demo.running) return;
-  demo.running = false;
+  demo.running = false;const btnNext = document.getElementById("btnNext");
+if(btnNext) btnNext.disabled = (demo.result !== "PASS");
+
 
   // Determine result (demo logic)
   const pass = (demo.trans >= 68 && demo.time >= 80 && demo.taste >= 40);
