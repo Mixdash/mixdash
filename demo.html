@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mixdash Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="nav">
+  <div class="logo">Mixdash Demo</div>
+  <a href="index.html" class="btn ghost">Back</a>
+</header>
+
+<section class="section">
+  <h1>Demo Dashboard</h1>
+  <p class="muted">Concept demo — no real audio processing</p>
+
+  <div class="cards">
+    <div class="card">Beatmatching</div>
+    <div class="card">Transitions</div>
+    <div class="card">Timing</div>
+    <div class="card">Taste / Flow</div>
+  </div>
+
+  <div class="card">
+    <h3>Current mission</h3>
+    <p>Hold alignment for 20s without sync.</p>
+
+    <button class="btn ghost" onclick="showFail()">Simulate FAIL</button>
+    <button class="btn primary" onclick="showPass()">Simulate PASS</button>
+  </div>
+
+  <div id="feedback" class="card hidden"></div>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>
