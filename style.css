@@ -210,4 +210,46 @@ p {
 @media(max-width:1000px){
   .demoTop,.demoGrid{grid-template-columns:1fr}
 }
+.appShell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: #0b0d12;
+  border-right: 1px solid #1b1e27;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.menu {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menuItem {
+  background: none;
+  border: none;
+  color: #9aa0b4;
+  text-align: left;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.menuItem.active,
+.menuItem:hover {
+  background: #1a1e2a;
+  color: #fff;
+}
+
+.appMain {
+  flex: 1;
+  padding: 40px;
+}
+
 
