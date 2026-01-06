@@ -284,3 +284,185 @@ function nextMission(){
   renderMicroNotes("New mission ready. Focus on control, not speed.");
   document.getElementById("btnNext").disabled = true;
 }
+// ===== Immersive demo behaviour =====
+let demo = { running:false, beat:78, trans:65, time:80, taste:35, events:[], result:"READY" };
+let presenceTimer = null;
+
+function clamp(n,min,max){ return Math.max(min, Math.min(max,n)); }
+
+function bootPresence(){
+  const lines = [
+    "Most DJs rush transitions here.",
+    "Good DJs manage technique. Great DJs manage energy.",
+    "Taste is built in moments like this.",
+    "Control beats complexity.",
+    "Let the groove breathe."
+  ];
+  let i = 0;
+  const coach = document.getElementById("coachLine");
+  if(!coach) return;
+  if(presenceTimer) clearInterval(presenceTimer);
+  presenceTimer = setInterval(() => {
+    i = (i + 1) % lines.length;
+    coach.textContent = lines[i];
+  }, 3500);
+}
+
+function setPresence(status, hint){
+  const st = document.getElementById("presenceStatus");
+  const hi = document.getElementById("presenceHint");
+  if(st) st.textContent = status;
+  if(hi) hi.textContent = hint || "";
+}
+
+function pushTimeline(label){
+  demo.events.unshift({ t: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), label });
+  renderTimeline();
+}
+
+function renderTimeline(){
+  const el = document.getElementById("timeline");
+  if(!el) return;
+  if(demo.events.length === 0){
+    el.innerHTML = `<div class="tlItem"><span class="dot"></span><span class="muted">No events yet</span></div>`;
+    return;
+  }
+  el.innerHTML = demo.events.slice(0,6).map(e =>
+    `<div class="tlItem"><span class="dot"></span><span class="muted">${e.t}</span><span>${e.label}</span></div>`
+  ).join("");
+}
+
+function renderBars(){
+  const sBeat = document.getElementById("sBeat");
+  const sTrans = document.getElementById("sTrans");
+  const sTime = document.getElementById("sTime");
+  const sTaste = document.getElementById("sTaste");
+  const bBeat = document.getElementById("bBeat");
+  const bTrans = document.getElementById("bTrans");
+  const bTime = document.getElementById("bTime");
+  const bTaste = document.getElementById("bTaste");
+
+  if(sBeat) sBeat.textContent = `${demo.beat}%`;
+  if(sTrans) sTrans.textContent = `${demo.trans}%`;
+  if(sTime) sTime.textContent = `${demo.time}%`;
+  if(sTaste) sTaste.textContent = demo.taste >= 60 ? "Strong" : demo.taste >= 40 ? "Improving" : "Developing";
+
+  if(bBeat) bBeat.style.width = `${demo.beat}%`;
+  if(bTrans) bTrans.style.width = `${demo.trans}%`;
+  if(bTime) bTime.style.width = `${demo.time}%`;
+  if(bTaste) bTaste.style.width = `${demo.taste}%`;
+}
+
+function setControls(){
+  const start = document.getElementById("btnStart");
+  const right = document.getElementById("btnRight");
+  const off = document.getElementById("btnOff");
+  const end = document.getElementById("btnEnd");
+  const next = document.getElementById("btnNext");
+  if(!start || !right || !off || !end) return;
+
+  start.disabled = demo.running;
+  right.disabled = !demo.running;
+  off.disabled = !demo.running;
+  end.disabled = !demo.running;
+  if(next) next.disabled = true; // unlock only on PASS
+}
+
+function renderMicro(text){
+  const el = document.getElementById("microNotes");
+  if(!el) return;
+  el.innerHTML = `<div class="note">${text}</div>`;
+}
+
+function renderResults(panelHtml, feedbackLines){
+  const panel = document.getElementById("resultPanel");
+  const cards = document.getElementById("feedbackCards");
+  if(panel) panel.innerHTML = panelHtml;
+  if(cards){
+    cards.innerHTML = feedbackLines.map(line => `<div class="miniCard">“${line}”</div>`).join("");
+  }
+}
+
+function renderDemo(){
+  renderBars();
+  renderTimeline();
+  setControls();
+  setPresence("Idle", "Press start to begin.");
+  renderMicro("Waiting for a session.");
+}
+
+function startSession(){
+  demo.running = true;
+  demo.result = "RUNNING";
+  pushTimeline("Session started");
+  setPresence("Listening…", "Mark moments that felt right or off.");
+  renderMicro("Listening for timing, transitions, and energy control.");
+  setControls();
+}
+
+function feltRight(){
+  if(!demo.running) return;
+  demo.trans = clamp(demo.trans + 2, 0, 100);
+  demo.time = clamp(demo.time + 1, 0, 100);
+  demo.taste = clamp(demo.taste + 4, 0, 100);
+  pushTimeline("✓ Transition felt controlled");
+  renderMicro("Good control. Keep the groove stable.");
+  renderBars();
+}
+
+function feltOff(){
+  if(!demo.running) return;
+  demo.trans = clamp(demo.trans - 1, 0, 100);
+  demo.taste = clamp(demo.taste - 2, 0, 100);
+  pushTimeline("⚠ Energy rose too fast");
+  renderMicro("Consider longer blends. Less movement.");
+  renderBars();
+}
+
+function endSession(){
+  if(!demo.running) return;
+  demo.running = false;
+
+  setPresence("Analyzing…", "Building your session summary.");
+  pushTimeline("Session ended");
+  setControls();
+
+  setTimeout(() => {
+    const pass = (demo.trans >= 68 && demo.time >= 80 && demo.taste >= 40);
+    demo.result = pass ? "PASS" : "NEEDS WORK";
+    const badge = document.getElementById("resultBadge");
+    if(badge) badge.textContent = demo.result;
+
+    setPresence("Session complete", pass ? "New mission unlocked." : "Retry with more patience.");
+
+    const panelHtml = `
+      <div><b>Session complete</b></div>
+      <div class="muted" style="margin-top:6px;">Summary</div>
+      <div>Beatmatching: <b>${demo.beat}%</b></div>
+      <div>Transitions: <b>${demo.trans}%</b></div>
+      <div>Timing: <b>${demo.time}%</b></div>
+      <div>Taste / Flow: <b>${demo.taste >= 60 ? "Strong" : demo.taste >= 40 ? "Improving" : "Developing"}</b></div>
+      <div class="muted" style="margin-top:10px;">Taste isn’t right or wrong. It’s intention and control.</div>
+    `;
+
+    const feedback = pass
+      ? ["Good control. Energy stayed consistent.", "Transitions fit the groove.", "Keep blends minimal and intentional."]
+      : ["This transition is too short.", "Energy rises too fast.", "Let the groove breathe longer."];
+
+    renderResults(panelHtml, feedback);
+    renderMicro(pass ? "Nice. Tap Next mission." : "Try again: longer blends, fewer moves.");
+
+    const next = document.getElementById("btnNext");
+    if(next) next.disabled = !pass;
+  }, 700);
+}
+
+function nextMission(){
+  const m = document.getElementById("missionText");
+  if(m) m.textContent = "Maintain energy through a 32‑bar blend without increasing intensity too early.";
+  pushTimeline("Next mission unlocked");
+  renderMicro("New mission ready. Focus on control, not speed.");
+  const next = document.getElementById("btnNext");
+  if(next) next.disabled = true;
+}
+
