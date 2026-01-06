@@ -465,4 +465,24 @@ function nextMission(){
   const next = document.getElementById("btnNext");
   if(next) next.disabled = true;
 }
+// ===== Homepage bloom lines =====
+(function(){
+  const el = document.getElementById("heroLine");
+  if(!el) return;
+
+  const lines = [
+    "Taste is built in moments like this.",
+    "Control beats complexity.",
+    "Let the groove breathe.",
+    "Most DJs rush transitions here.",
+    "Great mixing feels inevitable."
+  ];
+
+  let i = 0;
+  setInterval(() => {
+    i = (i + 1) % lines.length;
+    el.textContent = lines[i];
+  }, 3200);
+})();
+
 
