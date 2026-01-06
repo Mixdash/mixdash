@@ -208,3 +208,70 @@ function resetDemo(){
   renderMicroNotes("Waiting for a session.");
   renderDemo();
 }
+let demo = {
+  running:false,
+  beat:78,
+  trans:65,
+  time:80,
+  taste:40,
+  events:[]
+};
+
+function renderDemo(){
+  document.getElementById("bBeat").style.width = demo.beat+"%";
+  document.getElementById("bTrans").style.width = demo.trans+"%";
+  document.getElementById("bTime").style.width = demo.time+"%";
+  document.getElementById("bTaste").style.width = demo.taste+"%";
+}
+
+function startSession(){
+  demo.running=true;
+  document.getElementById("statusText").innerText="AI listening…";
+  document.getElementById("statusBadge").innerText="LISTENING";
+  toggleButtons(true);
+}
+
+function feltRight(){
+  demo.trans+=2;
+  demo.taste+=3;
+  addEvent("Transition felt right");
+  renderDemo();
+}
+
+function feltOff(){
+  demo.trans-=1;
+  demo.taste-=2;
+  addEvent("Transition felt off");
+  renderDemo();
+}
+
+function endSession(){
+  demo.running=false;
+  document.getElementById("statusText").innerText="Analyzed";
+  document.getElementById("statusBadge").innerText="DONE";
+
+  document.getElementById("resultPanel").innerHTML = `
+    Beatmatching: ${demo.beat}%<br>
+    Transitions: ${demo.trans}%<br>
+    Timing: ${demo.time}%<br>
+    <b>Taste: Improving</b>
+  `;
+
+  document.getElementById("feedbackCards").innerHTML = `
+    <div>“Energy rose too fast.”</div>
+    <div>“Let the groove breathe longer.”</div>
+  `;
+
+  toggleButtons(false);
+}
+
+function toggleButtons(on){
+  document.getElementById("btnRight").disabled=!on;
+  document.getElementById("btnOff").disabled=!on;
+  document.getElementById("btnEnd").disabled=!on;
+}
+
+function addEvent(text){
+  const el=document.getElementById("timeline");
+  el.innerHTML+=`<div>${text}</div>`;
+}
