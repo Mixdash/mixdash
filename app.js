@@ -14,3 +14,197 @@ function showFail() {
   f.innerHTML = "Energy rose too fast. Let the groove breathe.";
   f.classList.remove("hidden");
 }
+// ====== Mixdash Demo V2 State ======
+let demo = {
+  running: false,
+  beat: 78,
+  trans: 65,
+  time: 80,
+  taste: 35, // 0-100 (visual only)
+  events: [],
+  result: "WAITING",
+};
+
+function clamp(n, min, max){ return Math.max(min, Math.min(max, n)); }
+
+function setStatus(text, badge){
+  const st = document.getElementById("statusText");
+  const sb = document.getElementById("statusBadge");
+  if(st) st.textContent = text;
+  if(sb) sb.textContent = badge || "READY";
+}
+
+function setResultBadge(text){
+  const rb = document.getElementById("resultBadge");
+  if(rb) rb.textContent = text;
+}
+
+function pushTimeline(label){
+  demo.events.unshift({ t: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), label });
+  renderTimeline();
+}
+
+function renderTimeline(){
+  const el = document.getElementById("timeline");
+  if(!el) return;
+  if(demo.events.length === 0){
+    el.innerHTML = `<div class="tlItem"><span class="dot"></span><span class="muted">No events yet</span></div>`;
+    return;
+  }
+  el.innerHTML = demo.events.slice(0,6).map(e =>
+    `<div class="tlItem"><span class="dot"></span><span class="muted">${e.t}</span><span>${e.label}</span></div>`
+  ).join("");
+}
+
+function renderBars(){
+  const sBeat = document.getElementById("sBeat");
+  const sTrans = document.getElementById("sTrans");
+  const sTime = document.getElementById("sTime");
+  const sTaste = document.getElementById("sTaste");
+
+  const bBeat = document.getElementById("bBeat");
+  const bTrans = document.getElementById("bTrans");
+  const bTime = document.getElementById("bTime");
+  const bTaste = document.getElementById("bTaste");
+
+  if(sBeat) sBeat.textContent = `${demo.beat}%`;
+  if(sTrans) sTrans.textContent = `${demo.trans}%`;
+  if(sTime) sTime.textContent = `${demo.time}%`;
+  if(sTaste) sTaste.textContent = demo.taste >= 60 ? "Strong" : demo.taste >= 40 ? "Improving" : "Developing";
+
+  if(bBeat) bBeat.style.width = `${demo.beat}%`;
+  if(bTrans) bTrans.style.width = `${demo.trans}%`;
+  if(bTime) bTime.style.width = `${demo.time}%`;
+  if(bTaste) bTaste.style.width = `${demo.taste}%`;
+}
+
+function renderMicroNotes(text){
+  const el = document.getElementById("microNotes");
+  if(!el) return;
+  el.innerHTML = `<div class="note">${text}</div>`;
+}
+
+function renderResults(panelHtml, feedbackLines){
+  const panel = document.getElementById("resultPanel");
+  const cards = document.getElementById("feedbackCards");
+  if(panel) panel.innerHTML = panelHtml;
+
+  if(cards){
+    cards.innerHTML = feedbackLines.map(line => `<div class="miniCard">“${line}”</div>`).join("");
+  }
+}
+
+function setControls(){
+  const start = document.getElementById("btnStart");
+  const right = document.getElementById("btnRight");
+  const off = document.getElementById("btnOff");
+  const end = document.getElementById("btnEnd");
+  if(!start || !right || !off || !end) return;
+
+  start.disabled = demo.running;
+  right.disabled = !demo.running;
+  off.disabled = !demo.running;
+  end.disabled = !demo.running;
+}
+
+function renderDemo(){
+  renderBars();
+  renderTimeline();
+  setControls();
+  setResultBadge(demo.result);
+}
+
+// ====== Actions ======
+function startSession(){
+  demo.running = true;
+  demo.result = "RUNNING";
+  setStatus("AI listening…", "LISTENING");
+  setResultBadge("RUNNING");
+  pushTimeline("Session started");
+  renderMicroNotes("Listening for timing, transitions, and energy control.");
+  setControls();
+}
+
+function feltRight(){
+  if(!demo.running) return;
+  demo.trans = clamp(demo.trans + 2, 0, 100);
+  demo.time = clamp(demo.time + 1, 0, 100);
+  demo.taste = clamp(demo.taste + 4, 0, 100);
+  pushTimeline("Transition felt right");
+  renderMicroNotes("Good control. Keep the groove stable.");
+  renderBars();
+}
+
+function feltOff(){
+  if(!demo.running) return;
+  demo.trans = clamp(demo.trans - 1, 0, 100);
+  demo.taste = clamp(demo.taste - 2, 0, 100);
+  pushTimeline("Transition felt off");
+  renderMicroNotes("Energy rose too fast. Let the groove breathe longer.");
+  renderBars();
+}
+
+function endSession(){
+  if(!demo.running) return;
+  demo.running = false;
+
+  // Determine result (demo logic)
+  const pass = (demo.trans >= 68 && demo.time >= 80 && demo.taste >= 40);
+
+  demo.result = pass ? "PASS" : "NEEDS WORK";
+  setStatus("AI analyzing…", "ANALYZING");
+  pushTimeline("Session ended");
+  setControls();
+
+  // Fake analysis delay (feels real)
+  setTimeout(() => {
+    setStatus("Session analyzed", demo.result);
+    setResultBadge(demo.result);
+
+    const panelHtml = `
+      <div><b>Session result:</b> ${demo.result}</div>
+      <div class="muted" style="margin-top:6px;">Summary</div>
+      <div>Beatmatching: <b>${demo.beat}%</b></div>
+      <div>Transitions: <b>${demo.trans}%</b></div>
+      <div>Timing: <b>${demo.time}%</b></div>
+      <div>Taste / Flow: <b>${demo.taste >= 60 ? "Strong" : demo.taste >= 40 ? "Improving" : "Developing"}</b></div>
+    `;
+
+    const feedback = pass
+      ? [
+          "Good control. Energy stayed consistent.",
+          "Transitions fit the groove.",
+          "Keep blends minimal and intentional."
+        ]
+      : [
+          "This transition is too short.",
+          "Energy rises too fast.",
+          "Let the groove breathe longer."
+        ];
+
+    renderResults(panelHtml, feedback);
+    renderMicroNotes(pass ? "Nice. Next mission unlocks: controlled EQ blending." : "Retry the mission with longer blends and smaller corrections.");
+  }, 700);
+}
+
+function simulatePass(){
+  if(!demo.running) startSession();
+  demo.trans = 74; demo.time = 84; demo.taste = 55;
+  pushTimeline("Simulated PASS");
+  endSession();
+}
+
+function simulateFail(){
+  if(!demo.running) startSession();
+  demo.trans = 62; demo.time = 78; demo.taste = 33;
+  pushTimeline("Simulated FAIL");
+  endSession();
+}
+
+function resetDemo(){
+  demo = { running:false, beat:78, trans:65, time:80, taste:35, events:[], result:"WAITING" };
+  setStatus("Idle", "READY");
+  renderResults(`<div class="muted">End a session to see the result.</div>`, ["No feedback yet."]);
+  renderMicroNotes("Waiting for a session.");
+  renderDemo();
+}
