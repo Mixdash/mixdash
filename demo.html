@@ -28,165 +28,119 @@
   </aside>
 
   <main class="appMain">
-  <!-- HERO V2 -->
-<section class="heroV2">
-  <div class="heroBg"></div>
-
-  <div class="heroInner">
-    <div class="kicker">Mixdash</div>
-
-    <h1 class="heroTitle">AI that understands taste</h1>
-    <p class="heroSub">The difference between good and great.</p>
-
-    <p class="heroBody">
-      Technique can be learned.<br/>
-      Taste takes time.<br/>
-      <strong>Mixdash accelerates that process.</strong>
-    </p>
-
-    <div class="ctaRow">
-      <a href="demo.html" class="btn primary">View demo</a>
-      <a href="#how" class="btn ghost">See how it works</a>
-      <a href="pricing.html" class="btn ghost">Pricing</a>
-    </div>
-
-    <div class="heroMeta">
-      <span class="metaChip">No DJ clichés</span>
-      <span class="metaChip">Taste-first coaching</span>
-      <span class="metaChip">Demo-ready</span>
-    </div>
-
-    <div class="heroPulse">
-      <div class="pulseTitle">Live preview</div>
-      <div id="heroLine" class="pulseLine">Taste is built in moments like this.</div>
-      <div class="pulseHint muted">This is the language the product uses.</div>
-    </div>
-  </div>
-</section>
-
-<!-- STRONG PRODUCT CARDS -->
-<section class="sectionV2">
-  <div class="sectionHead">
-    <h2>Mixing is decisions</h2>
-    <p class="muted">Mixdash focuses on timing, transitions, energy and flow — not buttons.</p>
-  </div>
-
-  <div class="grid3">
-    <div class="cardV2">
-      <div class="label">During</div>
-      <h3>Listening</h3>
-      <p class="muted">The session feels guided, not judged.</p>
-    </div>
-
-    <div class="cardV2">
-      <div class="label">After</div>
-      <h3>Feedback</h3>
-      <p class="muted">Short, actionable lines you instantly understand.</p>
-    </div>
-
-    <div class="cardV2">
-      <div class="label">Next</div>
-      <h3>Missions</h3>
-      <p class="muted">Progress is built through simple objectives.</p>
-    </div>
-  </div>
-</section>
-
-<!-- HOW IT WORKS (clean + visual) -->
-<section id="how" class="sectionV2">
-  <div class="sectionHead">
-    <h2>How a session works</h2>
-    <p class="muted">A calm loop. Practice → feedback → mission.</p>
-  </div>
-
-  <div class="stepsV2">
-    <div class="stepCard">
-      <div class="stepNum">1</div>
-      <div>
-        <div class="stepTitle">Start a session</div>
-        <div class="muted">Mix as usual.</div>
-      </div>
-    </div>
-
-    <div class="stepCard">
-      <div class="stepNum">2</div>
-      <div>
-        <div class="stepTitle">Mark moments</div>
-        <div class="muted">Felt right / felt off.</div>
-      </div>
-    </div>
-
-    <div class="stepCard">
-      <div class="stepNum">3</div>
-      <div>
-        <div class="stepTitle">Get feedback</div>
-        <div class="muted">Short. Direct. Useful.</div>
-      </div>
-    </div>
-
-    <div class="stepCard">
-      <div class="stepNum">4</div>
-      <div>
-        <div class="stepTitle">Unlock the next mission</div>
-        <div class="muted">Control becomes habit.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROBLEM/SOLUTION (short but stronger) -->
-<section class="sectionV2">
-  <div class="split">
-    <div class="cardV2">
-      <h3>Most DJs practice alone</h3>
-      <p class="muted">No objective feedback. Same mistakes repeat. Progress depends on guesswork.</p>
-    </div>
-
-    <div class="cardV2">
-      <h3>Mixdash listens</h3>
-      <p class="muted">While you mix. And after you stop. Clear. Objective. Immediate.</p>
-    </div>
-  </div>
-</section>
-
-<!-- SOCIAL PROOF / TRUST (early-stage but premium) -->
-<section class="sectionV2">
-  <div class="sectionHead">
-    <h2>Built like a product</h2>
-    <p class="muted">Not a course. Not a tutorial. A coaching system.</p>
-  </div>
-
-  <div class="quotes">
-    <div class="quoteCard">
-      <div class="quote">“I finally understand why some transitions feel cheap.”</div>
-      <div class="muted">Private demo feedback</div>
-    </div>
-    <div class="quoteCard">
-      <div class="quote">“It speaks in DJ language. No fluff.”</div>
-      <div class="muted">Early concept user</div>
-    </div>
-    <div class="quoteCard">
-      <div class="quote">“The missions make practice addictive.”</div>
-      <div class="muted">Prototype tester</div>
-    </div>
-  </div>
-</section>
-
-<!-- FINAL CTA STRONG -->
-<section class="sectionV2">
-  <div class="finalCta cardV2">
+<section class="panel">
+  <div class="panelTop">
     <div>
-      <h2 style="margin:0 0 8px 0;">Train your taste</h2>
-      <p class="muted" style="margin:0;">Start with the demo. Join the waitlist when it clicks.</p>
+      <div class="label">Session</div>
+      <h1 class="h1">Your session starts when you do.</h1>
+      <p class="muted">
+        Mixdash listens to energy, timing and transitions.
+        Not to judge — but to explain why something works.
+      </p>
     </div>
-    <div class="ctaRow">
-      <a href="demo.html" class="btn primary">View demo</a>
-      <a href="#waitlist" class="btn ghost">Request access</a>
+    <div class="statusBox">
+      <div class="label">Status</div>
+      <div id="presenceStatus" class="presenceStatus">Idle</div>
+      <div id="presenceHint" class="muted small">Press start to begin.</div>
+    </div>
+  </div>
+
+  <div class="panelGrid">
+    <!-- Actions -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Actions</h2>
+        <span class="badge" id="resultBadge">READY</span>
+      </div>
+
+      <div class="btnGrid">
+        <button class="btn primary" id="btnStart" onclick="startSession()">Start session</button>
+        <button class="btn ghost" id="btnRight" onclick="feltRight()" disabled>Transition felt right</button>
+        <button class="btn ghost" id="btnOff" onclick="feltOff()" disabled>Transition felt off</button>
+        <button class="btn ghost" id="btnEnd" onclick="endSession()" disabled>End session</button>
+        <button class="btn ghost" id="btnNext" onclick="nextMission()" disabled>Next mission</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Mission</div>
+      <div class="missionText" id="missionText">Hold alignment for 20s without sync.</div>
+
+      <div class="divider"></div>
+
+      <div class="label">Coach presence</div>
+      <div class="miniCard" id="coachLine">Taste is built in moments like this.</div>
+    </div>
+
+    <!-- Skills -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Skills</h2>
+        <span class="muted small">Demo values</span>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Beatmatching</div><div id="sBeat" class="skillVal">78%</div></div>
+        <div class="bar"><span id="bBeat"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Transitions</div><div id="sTrans" class="skillVal">65%</div></div>
+        <div class="bar"><span id="bTrans"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Timing</div><div id="sTime" class="skillVal">80%</div></div>
+        <div class="bar"><span id="bTime"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Taste / Flow</div><div id="sTaste" class="skillVal">Developing</div></div>
+        <div class="bar subtle"><span id="bTaste"></span></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Micro notes</div>
+      <div class="microNotes" id="microNotes">
+        <div class="note">Waiting for a session.</div>
+      </div>
+    </div>
+
+    <!-- Timeline + Results -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Timeline</h2>
+        <span class="muted small">What just happened</span>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <div class="tlItem"><span class="dot"></span><span class="muted">No events yet</span></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Results</div>
+      <div class="resultPanel" id="resultPanel">
+        <div class="muted">End a session to see the result.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">AI feedback</div>
+      <div class="cardsMini" id="feedbackCards">
+        <div class="miniCard muted">No feedback yet.</div>
+      </div>
     </div>
   </div>
 </section>
 
-  </main>
+<script>
+  // start the coach line rotation on load
+  if (typeof bootPresence === "function") bootPresence();
+  if (typeof renderDemo === "function") renderDemo();
+</script>
+
 </div>
 
 
