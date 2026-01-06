@@ -275,3 +275,10 @@ function addEvent(text){
   const el=document.getElementById("timeline");
   el.innerHTML+=`<div>${text}</div>`;
 }
+function nextMission(){
+  const missionEl = document.querySelector(".missionText");
+  if(missionEl) missionEl.textContent = "Keep energy stable through a 32-bar blend.";
+  pushTimeline("Next mission unlocked");
+  renderMicroNotes("New mission ready. Focus on control, not speed.");
+  document.getElementById("btnNext").disabled = true;
+}
