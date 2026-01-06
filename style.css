@@ -92,6 +92,6 @@ p {
   color: var(--muted);
 }
 
-.hidden {
-  display: none;
+.hidden { display: none; }
+
 }
