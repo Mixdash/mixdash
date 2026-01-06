@@ -95,3 +95,91 @@ p {
 .hidden { display: none; }
 
 }
+/* ====== V2 DEMO LAYOUT ADD-ONS ====== */
+.demoWrap{padding:28px 40px; max-width:1100px}
+.demoTop{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+@media (max-width: 900px){ .demoTop{grid-template-columns:1fr} }
+
+.h1{font-size:44px; margin:0 0 6px 0}
+.h2{font-size:18px; margin:0}
+.small{font-size:12px}
+.label{font-size:12px; letter-spacing:.6px; text-transform:uppercase; color:var(--muted); margin-bottom:8px}
+
+.pill{
+  display:inline-block; margin-left:8px; font-size:11px; color:var(--muted);
+  border:1px solid #2a2a2e; padding:6px 10px; border-radius:999px;
+}
+.navActions{display:flex; gap:10px; align-items:center}
+
+.demoGrid{
+  margin-top:16px;
+  display:grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  gap:16px;
+}
+@media (max-width: 1100px){ .demoGrid{grid-template-columns:1fr} }
+
+.rowBetween{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
+.divider{height:1px; background:#2a2a2e; margin:16px 0}
+
+.statusBig{font-size:22px; font-weight:600; color:var(--text)}
+.badge{
+  border:1px solid #2a2a2e;
+  color:var(--muted);
+  padding:8px 10px;
+  border-radius:999px;
+  font-size:12px;
+}
+
+.missionText{color:var(--text); font-size:14px}
+
+.skill{margin-top:14px}
+.skillName{font-size:14px; color:var(--text)}
+.skillVal{font-size:12px; color:var(--muted)}
+
+.bar{
+  width:100%; height:10px; border-radius:999px;
+  background:#0f1014; border:1px solid #2a2a2e; overflow:hidden; margin-top:8px;
+}
+.bar > span{
+  display:block; height:100%;
+  width:0%;
+  background: var(--accent);
+  transition: width .25s ease;
+}
+.bar.subtle > span{opacity:.65}
+
+.btnGrid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:10px;
+  margin-top:14px;
+}
+.btnRow{display:flex; gap:10px; flex-wrap:wrap}
+
+.microNotes{display:flex; flex-direction:column; gap:8px; margin-top:10px}
+.note{
+  padding:10px 12px; border-radius:14px;
+  border:1px solid #2a2a2e;
+  background:#101118; color:var(--muted); font-size:13px;
+}
+
+.timeline{display:flex; flex-direction:column; gap:10px}
+.tlItem{
+  display:flex; gap:10px; align-items:center;
+  padding:10px 12px; border:1px solid #2a2a2e; border-radius:14px; background:#101118;
+}
+.dot{width:10px; height:10px; border-radius:999px; background:#3a3a40}
+
+.resultPanel{color:var(--text); font-size:14px; line-height:1.6}
+.cardsMini{display:flex; flex-direction:column; gap:10px}
+.miniCard{
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid #2a2a2e;
+  background:#101118;
+  color:var(--text);
+  font-size:13px;
+}
+.howToShow{margin-top:16px}
+.demoScript{margin:12px 0 0 18px; color:var(--muted); line-height:1.7}
