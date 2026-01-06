@@ -28,6 +28,119 @@
   </aside>
 
   <main class="appMain">
+    <section class="panel">
+  <div class="panelTop">
+    <div>
+      <div class="label">Session</div>
+      <h1 class="h1">Your session starts when you do.</h1>
+      <p class="muted">
+        Mixdash listens to energy, timing and transitions.
+        Not to judge — but to explain why something works.
+      </p>
+    </div>
+    <div class="statusBox">
+      <div class="label">Status</div>
+      <div id="presenceStatus" class="presenceStatus">Idle</div>
+      <div id="presenceHint" class="muted small">Press start to begin.</div>
+    </div>
+  </div>
+
+  <div class="panelGrid">
+    <!-- Actions -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Actions</h2>
+        <span class="badge" id="resultBadge">READY</span>
+      </div>
+
+      <div class="btnGrid">
+        <button class="btn primary" id="btnStart" onclick="startSession()">Start session</button>
+        <button class="btn ghost" id="btnRight" onclick="feltRight()" disabled>Transition felt right</button>
+        <button class="btn ghost" id="btnOff" onclick="feltOff()" disabled>Transition felt off</button>
+        <button class="btn ghost" id="btnEnd" onclick="endSession()" disabled>End session</button>
+        <button class="btn ghost" id="btnNext" onclick="nextMission()" disabled>Next mission</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Mission</div>
+      <div class="missionText" id="missionText">Hold alignment for 20s without sync.</div>
+
+      <div class="divider"></div>
+
+      <div class="label">Coach presence</div>
+      <div class="miniCard" id="coachLine">Taste is built in moments like this.</div>
+    </div>
+
+    <!-- Skills -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Skills</h2>
+        <span class="muted small">Demo values</span>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Beatmatching</div><div id="sBeat" class="skillVal">78%</div></div>
+        <div class="bar"><span id="bBeat"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Transitions</div><div id="sTrans" class="skillVal">65%</div></div>
+        <div class="bar"><span id="bTrans"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Timing</div><div id="sTime" class="skillVal">80%</div></div>
+        <div class="bar"><span id="bTime"></span></div>
+      </div>
+
+      <div class="skill">
+        <div class="rowBetween"><div class="skillName">Taste / Flow</div><div id="sTaste" class="skillVal">Developing</div></div>
+        <div class="bar subtle"><span id="bTaste"></span></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Micro notes</div>
+      <div class="microNotes" id="microNotes">
+        <div class="note">Waiting for a session.</div>
+      </div>
+    </div>
+
+    <!-- Timeline + Results -->
+    <div class="card">
+      <div class="rowBetween">
+        <h2 class="h2">Timeline</h2>
+        <span class="muted small">What just happened</span>
+      </div>
+
+      <div class="timeline" id="timeline">
+        <div class="tlItem"><span class="dot"></span><span class="muted">No events yet</span></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">Results</div>
+      <div class="resultPanel" id="resultPanel">
+        <div class="muted">End a session to see the result.</div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="label">AI feedback</div>
+      <div class="cardsMini" id="feedbackCards">
+        <div class="miniCard muted">No feedback yet.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // start the coach line rotation on load
+  if (typeof bootPresence === "function") bootPresence();
+  if (typeof renderDemo === "function") renderDemo();
+</script>
+
     <!-- HIER STAAT JE HUIDIGE DEMO -->
   </main>
 </div>
